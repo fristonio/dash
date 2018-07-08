@@ -12,7 +12,7 @@ it modifies a process to run a new process. For more information `man 3 exec`
 
 Together fork and exec consists the process creation pipeline in Unix like system.
 
-* **Some Pointers**
+## **Some Pointers**
 
 ### fork
 
@@ -34,7 +34,7 @@ process spwanned using fork and exec, which is to say each tab has its own proce
 * Copy arguments to this address space.
 * Initializes hardware context to start execution at the `start`.
 
-* **clone** 
+### clone 
 
 fork itself is implemented using the clone system call, similar to fork it creates a new process but unlike fork it allows the 
 child process to share parts of its execution context with the parent process. It is more commonly used to implement threads, wherein

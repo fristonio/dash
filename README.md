@@ -8,9 +8,9 @@ A list of resources and notes I made while building this are present in the [doc
 
 ## Feature set
 
-- [ ] Exit command
+- [x] Exit command
 - [ ] Background processes.
-- [ ] cd command
+- [x] cd command
 - [ ] `;, &&, and ||` implementation
 - [ ] line continuation using `\`
 - [ ] Pipes

@@ -1,5 +1,7 @@
+#include "colors.h"
 #include "main.h"
 #include "utils.h"
+#include "commands.h"
 
 /**
  * Prints the shell prompt to the stdout.
@@ -15,7 +17,7 @@ void show_prompt() {
        perror("getcwd() error");
 
     printf(ANSI_COLOR_BLUE "%s"
-        ANSI_COLOR_RESET "@"
+        ANSI_COLOR_RED "@"
         ANSI_COLOR_CYAN "%s"
         ANSI_COLOR_RESET " $ "
         ANSI_COLOR_GREEN "%s\n>> "
@@ -32,7 +34,7 @@ void run(char *cmd, char **args, int *status){
      int pid;
 
      if((pid = fork()) == -1){
-         perror("Error while forking : \n");
+         perror(ANSI_COLOR_RED "Error while forking : \n" ANSI_COLOR_RESET);
          return;
      }
 
@@ -41,7 +43,7 @@ void run(char *cmd, char **args, int *status){
         // Child process
         // If we launch non-existing commands we end the process
         if (execvp(cmd, args) == -1){
-            printf("Command not found\n");
+            printf(ANSI_COLOR_RED "Command not found\n" ANSI_COLOR_RESET);
             exit(1);
         }
      }
@@ -55,7 +57,6 @@ void run(char *cmd, char **args, int *status){
 
 int main() {
     const char prompt[] = "$ ";
-    const char *EXIT_CMD = "exit";
     char input[INPUT_MAXLEN];
 /*  const wchar_t welcome_text[] =
         "   ██████╗  █████╗ ███████╗██╗  ██╗"
@@ -86,15 +87,10 @@ int main() {
         char **cmd = str_split(input_cmd, ' ', &count);
         char *command = strdup(cmd[0]);
 
-        if(count == 1)
-            cmd = NULL;
-
-        cmd++;
-        printf("%s\n", command);
-
-        if(!strcmp(EXIT_CMD, command)) {
-            printf("Exitting...\n");
-            exit(0);
+        if(shell_cmd(cmd)) {
+            free(cmd);
+            free(command);
+            continue;
         }
 
         int status = 0;
@@ -103,6 +99,9 @@ int main() {
         char status_env[10];
         sprintf(status_env, "?=%d", status);
         putenv(status_env);
+
+        free(command);
+        free(cmd);
     }
 
     return 0;

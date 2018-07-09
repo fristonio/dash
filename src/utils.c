@@ -55,7 +55,7 @@ char** str_split(char* str, const char a_delim, int* ctr) {
         tmp_str++;
     }
 
-    result = malloc(sizeof(char*) * count);
+    result = malloc(sizeof(char*) * (count + 1));
 
     if (result)
     {
@@ -67,7 +67,7 @@ char** str_split(char* str, const char a_delim, int* ctr) {
             token = strtok(NULL, delim);
         }
 
-        *(result + idx) = 0;
+        *(result + idx) = NULL;
     }
 
     *ctr = count;

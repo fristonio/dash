@@ -5,6 +5,7 @@ AC_CONFIG_SRCDIR([src/main.c])
 
 AC_PROG_CC
 AC_PROG_CPP
+CFLAGS = "$CFLAGS -Wno-implicit-function-declaration"
 
 AC_CONFIG_FILES([
 	Makefile

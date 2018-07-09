@@ -28,6 +28,13 @@ of the child(which will surely be different from parent) and to child it returns
 > Chrome for unix like system relies heavily on this fork and exec model, each tab that is opened in chrome is a unique
 process spwanned using fork and exec, which is to say each tab has its own process image and address space.
 
+* Under linux fork is implemented using copy on write, so the only penalty incurred by fork is the time and memory required
+to duplicate the parents page table and create unique task strucutre for the child.
+
+There are some embedded devices which does not have a MMU, fork cannot be implemented on such devices. The fuction `vfork`
+is used for them. It is a special case of clone, which is used to create a new process without calling the page tables of the
+parent process(so it gives better performance than fork). For more information `man 2 vfork`
+
 ### exec
 
 * Loads a new program into current address space.

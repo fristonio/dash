@@ -1,0 +1,14 @@
+*.o
+dash
+compile
+configure
+config.*
+depcomp
+install-sh
+missing
+
+/autom4te.cache
+/aclocal.m4
+
+Makefile
+Makefile.in

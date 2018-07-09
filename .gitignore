@@ -1,4 +1,5 @@
 *.o
+*.Po
 dash
 compile
 configure
@@ -6,6 +7,8 @@ config.*
 depcomp
 install-sh
 missing
+
+.deps
 
 /autom4te.cache
 /aclocal.m4

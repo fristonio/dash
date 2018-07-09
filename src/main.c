@@ -1,11 +1,26 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <string.h>
-#include <stdlib.h>
-
+#include "main.h"
 #include "utils.h"
 
-#define INPUT_MAXLEN 1024
+/**
+ * Prints the shell prompt to the stdout.
+ */
+void show_prompt() {
+    char user[MAX_BUF_LEN];
+    char host[MAX_BUF_LEN];
+    char cwd[MAX_BUF_LEN];
+
+    getlogin_r(user, MAX_BUF_LEN - 1);
+    gethostname(host, MAX_BUF_LEN - 1);
+    if (getcwd(cwd, MAX_BUF_LEN) == NULL)
+       perror("getcwd() error");
+
+    printf(ANSI_COLOR_BLUE "%s"
+        ANSI_COLOR_RESET "@"
+        ANSI_COLOR_CYAN "%s"
+        ANSI_COLOR_RESET " $ "
+        ANSI_COLOR_GREEN "%s\n>> "
+        ANSI_COLOR_RESET, user, host, cwd);
+}
 
 /**
  * Run a command given in cmd with the arguments provided
@@ -41,6 +56,7 @@ void run(char *cmd, char **args, int *status){
 int main() {
     const char prompt[] = "$ ";
     const char *EXIT_CMD = "exit";
+    char input[INPUT_MAXLEN];
 /*  const wchar_t welcome_text[] =
         "   ██████╗  █████╗ ███████╗██╗  ██╗"
         "   ██╔══██╗██╔══██╗██╔════╝██║  ██║"
@@ -49,15 +65,12 @@ int main() {
         "   ██████╔╝██║  ██║███████║██║  ██║"
         "   ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝";*/
 
-    char input[INPUT_MAXLEN];
 
-    printf("DASH\n");
     putenv("SHELL=dash");
 
     // Main command loop of the shell.
     while(1) {
-        printf("%s ", prompt);
-        fflush(stdout);
+        show_prompt();
 
         if(!fgets(input, INPUT_MAXLEN, stdin)) {
             printf("Cannot read from standard input\n");
@@ -71,11 +84,13 @@ int main() {
 
         int count;
         char **cmd = str_split(input_cmd, ' ', &count);
-        char *command = cmd[0];
+        char *command = strdup(cmd[0]);
+
         if(count == 1)
             cmd = NULL;
 
         cmd++;
+        printf("%s\n", command);
 
         if(!strcmp(EXIT_CMD, command)) {
             printf("Exitting...\n");

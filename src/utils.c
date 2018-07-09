@@ -57,13 +57,12 @@ char** str_split(char* str, const char a_delim, int* ctr) {
 
     result = malloc(sizeof(char*) * (count + 1));
 
-    if (result)
-    {
+    if (result) {
         size_t idx  = 0;
         char* token = strtok(new_str, delim);
 
         while (token) {
-            *(result + idx++) = strdup(token);
+            *(result + idx++) = strdup(trim(token));
             token = strtok(NULL, delim);
         }
 

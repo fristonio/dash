@@ -9,8 +9,11 @@ A list of resources and notes I made while building this are present in the [doc
 ## Feature set
 
 - [x] Exit command
-- [ ] Background processes.
+- [x] Background processes(`&`).
 - [x] cd command
-- [ ] `;, &&, and ||` implementation
+- [x] `;` implementation
+- [ ] `&&` implmentation
+- [ ] `||` implementation
 - [ ] line continuation using `\`
 - [ ] Pipes
+- [ ] Forward signals to child.

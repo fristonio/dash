@@ -66,7 +66,9 @@ int shell_cmd(char **cmd) {
     char *command = *cmd;
 
     if(!strcmp(command, EXIT_CMD)) {
-        printf("Exitting...\n");
+        printf(ANSI_COLOR_YELLOW
+            "Exitting...\n\n"
+            ANSI_COLOR_RESET);
         exit(0);
     } else if(!strcmp(command, CD_CMD)) {
         change_dir_cmd(cmd);

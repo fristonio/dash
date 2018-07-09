@@ -120,7 +120,7 @@ int process_command(char *cmd) {
 
 
 int main() {
-    const char prompt[] = "$ ";
+
     char input[INPUT_MAXLEN];
 /*  const wchar_t welcome_text[] =
         "   ██████╗  █████╗ ███████╗██╗  ██╗"
@@ -132,6 +132,7 @@ int main() {
 
 
     putenv("SHELL=dash");
+    printf(CLEAR_SCREEN_ANSI);
 
     // Main command loop of the shell.
     while(1) {

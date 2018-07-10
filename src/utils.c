@@ -8,68 +8,79 @@
  * Basic utility function to trim a string, it trims leading and traling
  * whitespace characters. It returns the modified string which is trimmed.
  */
-char* trim(char *str) {
-    char *end;
+char *trim(char *str)
+{
+	char *end;
 
-    while(isspace((unsigned char)*str))
-        str++;
+	while (isspace((unsigned char)*str))
+		str++;
 
-    if(*str == '\0')
-        return NULL;
+	if (*str == '\0')
+		return NULL;
 
-    end = str + strlen(str) - 1;
-    while(end > str && isspace((unsigned char)*end))
-        end--;
+	end = str + strlen(str) - 1;
+	while (end > str && isspace((unsigned char)*end))
+		end--;
 
-    end[1] = '\0';
-    return str;
+	end[1] = '\0';
+	return str;
 }
-
 
 /**
  * This functions splits a string on the basis of the provided delimeter,
  * the integer `ctr` holds the count of the elements in the result we
  * returned. Original string is not modified in this function.
  */
-char** str_split(char* str, const char a_delim, int* ctr) {
-    char *tmp_str = str;
-    size_t len = strlen(str);
-    const char delim[2] = {a_delim, '\0'};
+char **str_split(char *str, char *delim, int *ctr)
+{
+	char *tmp_str = str;
+	size_t len = strlen(str);
+	size_t delim_len = strlen(delim);
 
-    for(int i = 0; i < len && str[i] == a_delim; i++) {
-        tmp_str++;
-    }
+	for (int i = 0;
+	     (i <= len - delim_len) && !strncmp(tmp_str, delim, delim_len);
+	     i++) {
+		tmp_str += delim_len;
+	}
 
-    for(int i = len - 1; i >= 0 && str[i] == a_delim; i++) {
-        tmp_str[i] = '\0';
-    }
+	len = strlen(tmp_str);
 
-    char *new_str = tmp_str;
+	if (len > delim_len) {
+		for (int i = len - delim_len;
+		     i >= 0 && !strncmp(tmp_str + i, delim, delim_len); i++) {
+			tmp_str[i] = '\0';
+		}
+	}
 
-    char **result = NULL;
-    size_t count = 1;
+	char *new_str = tmp_str;
 
-    while (*tmp_str) {
-        if (a_delim == *tmp_str)
-            count++;
-        tmp_str++;
-    }
+	char **result = NULL;
+	size_t count = 1;
 
-    result = malloc(sizeof(char*) * (count + 1));
+	while (strlen(tmp_str) >= delim_len) {
+		if (!strncmp(tmp_str, delim, delim_len)) {
+			count++;
+			tmp_str += delim_len;
+			continue;
+		}
+		tmp_str++;
+	}
 
-    if (result) {
-        size_t idx  = 0;
-        char* token = strtok(new_str, delim);
+	result = malloc(sizeof(char *) * (count + 1));
 
-        while (token) {
-            *(result + idx++) = strdup(trim(token));
-            token = strtok(NULL, delim);
-        }
+	if (result) {
+		size_t idx = 0;
+		char *token = strtok(new_str, delim);
 
-        *(result + idx) = NULL;
-    }
+		while (token) {
+			*(result + idx++) = strdup(trim(token));
+			token = strtok(NULL, delim);
+		}
 
-    *ctr = count;
+		*(result + idx) = NULL;
+	}
 
-    return result;
+	*ctr = count;
+
+	return result;
 }

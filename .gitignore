@@ -17,3 +17,5 @@ Makefile
 Makefile.in
 
 test*
+
+*~

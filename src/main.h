@@ -3,6 +3,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include <sys/types.h>
+#include <signal.h>
+#include <sys/wait.h>
 
 
 #define INPUT_MAXLEN 1024

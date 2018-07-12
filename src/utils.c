@@ -57,13 +57,19 @@ char **str_split(char *str, char *delim, int *ctr)
 	char **result = NULL;
 	size_t count = 1;
 
+	int dup_flag = 0;
 	while (strlen(tmp_str) >= delim_len) {
 		if (!strncmp(tmp_str, delim, delim_len)) {
-			count++;
 			tmp_str += delim_len;
-			continue;
+			if (dup_flag)
+				continue;
+
+			count++;
+			dup_flag = 1;
+		} else {
+			tmp_str++;
+			dup_flag = 0;
 		}
-		tmp_str++;
 	}
 
 	result = malloc(sizeof(char *) * (count + 1));

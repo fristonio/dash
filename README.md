@@ -12,8 +12,7 @@ A list of resources and notes I made while building this are present in the [doc
 - [x] Background processes(`&`).
 - [x] cd command
 - [x] `;` implementation
-- [ ] `&&` implmentation
-- [ ] `||` implementation
-- [ ] line continuation using `\`
+- [x] `&&` implmentation
+- [x] line continuation using `\`
 - [ ] Pipes
-- [ ] Forward signals to child.
+- [ ] Jobs and signal forwarding.

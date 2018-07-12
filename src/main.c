@@ -128,6 +128,8 @@ int main()
 {
 
 	char input[INPUT_MAXLEN];
+	char *prev_input = NULL;
+	int continue_flag = 0;
 /*  const wchar_t welcome_text[] =
         "   ██████╗  █████╗ ███████╗██╗  ██╗"
         "   ██╔══██╗██╔══██╗██╔════╝██║  ██║"
@@ -141,7 +143,12 @@ int main()
 
 	// Main command loop of the shell.
 	while (1) {
-		show_prompt();
+		if (continue_flag) {
+			printf(" > ");
+			fflush(stdout);
+			continue_flag = 0;
+		} else
+			show_prompt();
 
 		if (!fgets(input, INPUT_MAXLEN, stdin)) {
 			printf("Cannot read from standard input\n");
@@ -152,7 +159,38 @@ int main()
 		if (!input_cmd) {
 			continue;
 		}
+		// Attempt to get multiple lines in this scenario.
+		int input_cmd_len = strlen(input_cmd);
+		if (input_cmd[input_cmd_len - 1] == '\\' || prev_input != NULL) {
+			if (prev_input == NULL) {
+				prev_input =
+				    (char *)malloc(sizeof(char) *
+						   (INPUT_MAXLEN));
+				if (prev_input == NULL)
+					perror("Malloc falied");
+			}
 
+			int prev_input_len = strlen(prev_input);
+			int avail_len = INPUT_MAXLEN - (prev_input_len + 1);
+			if (avail_len < (input_cmd_len + 1)) {
+				prev_input =
+				    (char *)realloc(prev_input,
+						    sizeof(char) *
+						    (INPUT_MAXLEN));
+			}
+
+			strcat(prev_input, input_cmd);
+
+			if (input_cmd[input_cmd_len - 1] == '\\') {
+				prev_input[strlen(prev_input) - 1] = ' ';
+				continue_flag = 1;
+				continue;
+			} else {
+				input_cmd = prev_input;
+			}
+		}
+
+		input_cmd = trim(input_cmd);
 		int count;
 		// Individual commands to be run
 		char **cmd_list = str_split(input_cmd, ";", &count);
@@ -180,6 +218,11 @@ int main()
 		}
 
 		free(cmd_list_ptr);
+
+		if (prev_input) {
+			free(prev_input);
+			prev_input = NULL;
+		}
 	}
 
 	return 0;

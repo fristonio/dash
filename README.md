@@ -1,12 +1,8 @@
 # Dash
 
-> An experimental shell writtern for the purpose of learning.
+> An experimental shell.
 
-## Documentation
-
-A list of resources and notes I made while building this are present in the [docs](/docs) directory.
-
-## Feature set
+## Features
 
 - [x] Exit command
 - [x] Background processes(`&`).
@@ -15,4 +11,8 @@ A list of resources and notes I made while building this are present in the [doc
 - [x] `&&` implmentation
 - [x] line continuation using `\`
 - [ ] Pipes
+- [ ] Redirection
 - [ ] Jobs and signal forwarding.
+- [ ] Custom parser
+- [ ] GNU readline for command line input.
+- [ ] In command substitutions and expansion.

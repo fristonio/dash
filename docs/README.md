@@ -49,3 +49,12 @@ the created child shares the memory and the address space but have different reg
 
 clone again comes in two flavours one a system call and other wrapper from glibc library. The copy is optimised using the copy
 on write semantics.
+
+## MAN page
+
+* fork
+* exec
+* vfork
+* posix_spawn
+* dup, dup2
+* clone
